@@ -15,6 +15,7 @@ export default function SearchBox({ label, onInput }: SearchBoxProps) {
   return (
     <Flex w={"100%"}>
       <TextInput
+        w={"100%"}
         variant="filled"
         size="lg"
         radius="xl"

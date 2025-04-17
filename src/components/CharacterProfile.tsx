@@ -1,5 +1,6 @@
 import {
   Card,
+  Center,
   Flex,
   Grid,
   Group,
@@ -35,15 +36,17 @@ export default function CharacterProfile() {
         <Image
           src={chosenCharacter.image}
           w={"100%"}
-          h={520}
+          h={{ sm: "50%", md: "80%" }}
           radius={"lg"}
           alt={chosenCharacter.name}
         />
       </Flex>
 
-      <Title order={1}>{chosenCharacter.name}</Title>
+      <Center>
+        <Title order={1}>{chosenCharacter.name}</Title>
+      </Center>
       <Group>
-        <Flex dir="row" gap={7}>
+        <Flex dir="row" gap={12}>
           <StatusBadge type="status">{chosenCharacter.status}</StatusBadge>
           <StatusBadge type="species">{chosenCharacter.species}</StatusBadge>
         </Flex>
