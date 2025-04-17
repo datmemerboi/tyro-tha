@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { Character } from "../models/character";
-import { fetchCharacterAPI } from "../api/characters";
+import { fetchCharacterAPI, fetchCharacterById } from "../api/characters";
 import {
   API_NO_RECORDS,
   NETWORK_ERROR_MESSAGE,
@@ -79,9 +79,22 @@ const useCharacterStore = create<CharacterState>((set, get) => ({
       totalPages: data.info.pages,
     }));
   },
-  chooseCharacter: (id: number) => {
-    const person = get().characters.find((p) => p.id === id) || null;
-    set({ chosenCharacter: person });
+  chooseCharacter: async (id: number) => {
+    const { data, error } = await fetchCharacterById(id, "Human");
+
+    if (error) {
+      set({ errorMessage: API_NO_RECORDS });
+      return;
+    }
+    if (data === null) {
+      if (data === null) {
+        // Error. Show pop-up message
+        set({ errorMessage: NETWORK_ERROR_MESSAGE });
+        return;
+      }
+    }
+
+    set({ chosenCharacter: data });
   },
   setErrorMessage: (msg: string) => set({ errorMessage: msg }),
   searchByTerm: async (term: string) => {
@@ -90,7 +103,7 @@ const useCharacterStore = create<CharacterState>((set, get) => ({
       return;
     }
 
-    const { data, error } = await fetchCharacterAPI(term);
+    const { data, error } = await fetchCharacterAPI(term, "Human");
 
     if (error) {
       set({ errorMessage: error });
