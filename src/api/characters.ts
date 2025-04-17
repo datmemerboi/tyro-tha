@@ -1,4 +1,5 @@
 import {
+  API_BAD_REQUEST,
   API_BASE_URL,
   API_NO_RECORDS,
   API_VALIDATION_ERROR_MESSAGE,
@@ -11,6 +12,7 @@ import {
   Character,
 } from "../models/character";
 import {
+  BadRequestError,
   HTTPError,
   NotFoundError,
   validateResponse,
@@ -39,7 +41,7 @@ export async function fetchCharacterAPI(
     const parsedData = await validateResponse(res, APIResponseSchema);
 
     if (!parsedData.results.length) {
-      return { data: null, error: "No characters found" };
+      return { data: null, error: API_NO_RECORDS };
     }
 
     return { data: parsedData, error: null };
@@ -53,8 +55,11 @@ export async function fetchCharacterAPI(
     if (e instanceof ValidationError) {
       return { data: null, error: API_VALIDATION_ERROR_MESSAGE };
     }
+    if (e instanceof BadRequestError) {
+      return { data: null, error: API_BAD_REQUEST };
+    }
 
-    return { data: null, error: "Unknown error occurred" };
+    return { data: null, error: NETWORK_ERROR_MESSAGE };
   }
 }
 
@@ -92,6 +97,6 @@ export async function fetchCharacterById(
       return { data: null, error: API_VALIDATION_ERROR_MESSAGE };
     }
 
-    return { data: null, error: "Unknown error occurred" };
+    return { data: null, error: NETWORK_ERROR_MESSAGE };
   }
 }

@@ -4,7 +4,6 @@ import { fetchCharacterAPI, fetchCharacterById } from "../api/characters";
 import {
   API_NO_RECORDS,
   NETWORK_ERROR_MESSAGE,
-  NO_SUCH_RECORDS_MESSAGE,
 } from "../constants";
 
 interface CharacterState {
@@ -117,7 +116,7 @@ const useCharacterStore = create<CharacterState>((set, get) => ({
 
     if (data?.results.length && data.results.length < 1) {
       // Empty result. Result accordingly
-      set({ errorMessage: NO_SUCH_RECORDS_MESSAGE });
+      set({ errorMessage: API_NO_RECORDS });
     }
 
     set(() => ({ searchResults: data.results!, totalPages: data.info.pages }));
