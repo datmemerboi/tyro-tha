@@ -59,6 +59,6 @@ describe("CharacterProfile", () => {
     renderWithTheme(<CharacterProfile />);
     const createdDate = screen.getByRole("character-profile-created-date");
     expect(createdDate).toBeInTheDocument();
-    expect(createdDate.innerHTML).toBe("First noticed (in C-137 timeline): <code>2017 Nov 05 16:50:21</code>");
+    expect(createdDate.innerHTML).toBe("First noticed (in C-137 timeline): <code style=\"color: rgb(166, 166, 166);\">2017 Nov 05 16:50:21</code>");
   });
 });
