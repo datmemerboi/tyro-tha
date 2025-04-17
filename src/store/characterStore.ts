@@ -15,7 +15,9 @@ const useCharacterStore = create<CharacterState>((set, get) => ({
   page: 1,
   chosenCharacter: null,
   fetchMoreCharacters: async (page = get().page) => {
-    const res = await fetch(`https://rickandmortyapi.com/api/character?page=${page}`);
+    const res = await fetch(
+      `https://rickandmortyapi.com/api/character?page=${page}`
+    );
     const data = await res.json();
     set((state) => ({
       characters: [...state.characters, ...data.results],
