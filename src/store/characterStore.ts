@@ -86,7 +86,7 @@ const useCharacterStore = create<CharacterState>((set, get) => ({
   setErrorMessage: (msg: string) => set({ errorMessage: msg }),
   searchByTerm: async (term: string) => {
     if (!term || !term.length) {
-      set({ searchResults: [] });
+      set({ searchResults: [], errorMessage: null });
       return;
     }
 
