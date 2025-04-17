@@ -1,19 +1,25 @@
 import { useEffect } from "react";
 import useCharacterStore from "../store/characterStore";
+import { useShallow } from "zustand/react/shallow";
 
 const useCharacters = () => {
-  const fetchMoreCharacters = useCharacterStore((s) => s.fetchMoreCharacters);
+  const { characters, fetchMoreCharacters } = useCharacterStore(
+    useShallow((s) => ({
+      characters: s.characters,
+      fetchMoreCharacters: s.fetchMoreCharacters,
+    }))
+  );
 
   useEffect(() => {
-    fetchMoreCharacters();
+    if (characters.length < 1) {
+      fetchMoreCharacters();
+    }
   }, []);
 
-  return useCharacterStore((s) => ({
-    characters: s.characters,
-    chosenCharacter: s.chosenCharacter,
-    fetchMoreCharacters: () => s.fetchMoreCharacters(),
-    chooseCharacter: s.chooseCharacter,
-  }));
+  return {
+    characters,
+    fetchMoreCharacters,
+  };
 };
 
 export default useCharacters;
