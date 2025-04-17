@@ -1,10 +1,8 @@
 import { create } from "zustand";
+
 import { Character } from "../models/character";
 import { fetchCharacterAPI, fetchCharacterById } from "../api/characters";
-import {
-  API_NO_RECORDS,
-  NETWORK_ERROR_MESSAGE,
-} from "../constants";
+import { API_NO_RECORDS, NETWORK_ERROR_MESSAGE } from "../constants";
 
 interface CharacterState {
   characters: Character[];
@@ -15,7 +13,6 @@ interface CharacterState {
   errorMessage: string | null;
 
   setCurrentPage: (page: number) => Promise<void>;
-
   fetchMoreCharacters: (page?: number) => Promise<void>;
   chooseCharacter: (id: number) => void;
   searchByTerm: (term: string) => void;
@@ -53,7 +50,6 @@ const useCharacterStore = create<CharacterState>((set, get) => ({
       currentPage: page,
     }));
   },
-
   fetchMoreCharacters: async (page = get().currentPage) => {
     const { data, error } = await fetchCharacterAPI("", "Human", page); // Filter by species, skip to page
 
@@ -86,11 +82,9 @@ const useCharacterStore = create<CharacterState>((set, get) => ({
       return;
     }
     if (data === null) {
-      if (data === null) {
-        // Error. Show pop-up message
-        set({ errorMessage: NETWORK_ERROR_MESSAGE });
-        return;
-      }
+      // Error. Show pop-up message
+      set({ errorMessage: NETWORK_ERROR_MESSAGE });
+      return;
     }
 
     set({ chosenCharacter: data });
