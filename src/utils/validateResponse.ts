@@ -7,6 +7,13 @@ export class HTTPError extends Error {
   }
 }
 
+export class NotFoundError extends Error {
+  constructor(message?: string, public status?: number) {
+    super(message);
+    this.name = "NotFoundError";
+  }
+}
+
 export class ValidationError extends Error {
   constructor(public issues: string) {
     super(issues);
@@ -18,6 +25,9 @@ export async function validateResponse<T>(
   response: Response,
   schema: ZodSchema<T>
 ): Promise<T> {
+  if (response.status === 404) {
+    throw new NotFoundError();
+  }
   if (!response.ok) {
     let errorMessage = `HTTP error: ${response.status} ${response.statusText}`;
 

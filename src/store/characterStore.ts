@@ -32,8 +32,12 @@ const useCharacterStore = create<CharacterState>((set, get) => ({
   errorMessage: null,
 
   setCurrentPage: async (page: number) => {
-    const data = await fetchCharacterAPI("", "Human", page); // Filter by species, skip to page
+    const { data, error } = await fetchCharacterAPI("", "Human", page); // Filter by species, skip to page
 
+    if (error) {
+      set({ errorMessage: error });
+      return;
+    }
     if (data === null) {
       // Error. Show pop-up message
       set({ errorMessage: NETWORK_ERROR_MESSAGE });
@@ -52,8 +56,12 @@ const useCharacterStore = create<CharacterState>((set, get) => ({
   },
 
   fetchMoreCharacters: async (page = get().currentPage) => {
-    const data = await fetchCharacterAPI("", "Human", page); // Filter by species, skip to page
+    const { data, error } = await fetchCharacterAPI("", "Human", page); // Filter by species, skip to page
 
+    if (error) {
+      set({ errorMessage: error });
+      return;
+    }
     if (data === null) {
       // Error. Show pop-up message
       set({ errorMessage: NETWORK_ERROR_MESSAGE });
@@ -63,6 +71,7 @@ const useCharacterStore = create<CharacterState>((set, get) => ({
     if (data?.results.length && data.results.length < 1) {
       // Empty result. Result accordingly
       set({ errorMessage: API_NO_RECORDS });
+      return;
     }
 
     set((state) => ({
@@ -77,10 +86,16 @@ const useCharacterStore = create<CharacterState>((set, get) => ({
   setErrorMessage: (msg: string) => set({ errorMessage: msg }),
   searchByTerm: async (term: string) => {
     if (!term || !term.length) {
+      set({ searchResults: [] });
       return;
     }
 
-    const data = await fetchCharacterAPI(term);
+    const { data, error } = await fetchCharacterAPI(term);
+
+    if (error) {
+      set({ errorMessage: error });
+      return;
+    }
     if (data === null) {
       // Error. Show pop-up message
       set({ errorMessage: NETWORK_ERROR_MESSAGE });
@@ -92,7 +107,7 @@ const useCharacterStore = create<CharacterState>((set, get) => ({
       set({ errorMessage: NO_SUCH_RECORDS_MESSAGE });
     }
 
-    set(() => ({ searchResults: data.results! }));
+    set(() => ({ searchResults: data.results!, totalPages: data.info.pages }));
   },
 }));
 
