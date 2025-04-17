@@ -3,7 +3,7 @@ import { useDebouncedCallback } from "@mantine/hooks";
 
 interface SearchBoxProps {
   label: string;
-  onInput: (value: string) => any;
+  onInput: (value: string) => void;
 }
 
 export default function SearchBox({ label, onInput }: SearchBoxProps) {

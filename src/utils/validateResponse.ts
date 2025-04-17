@@ -47,7 +47,7 @@ export async function validateResponse<T>(
   try {
     data = await response.json();
   } catch (err) {
-    throw new HTTPError("Failed to parse JSON response");
+    throw new HTTPError("Failed to parse JSON response:", err.message);
   }
   const parsed = schema.safeParse(data);
 
