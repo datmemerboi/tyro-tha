@@ -82,7 +82,7 @@ export default function CharacterProfile() {
       </Group>
 
       <Group>
-        <Text>
+        <Text role="character-profile-created-date">
           First noticed (in C-137 timeline): <code>{createdDateStr}</code>
         </Text>
       </Group>
