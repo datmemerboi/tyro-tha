@@ -1,16 +1,17 @@
-import { Container, Grid, Group } from "@mantine/core";
+import { Container, Grid, Group, Pagination, Title } from "@mantine/core";
 
 import CharacterProfile from "./components/CharacterProfile";
 import useCharacters from "./hooks/useCharacters";
 import useChosenCharacters from "./hooks/useChosenCharacter";
-import { filterBySpecies } from "./utils/filters";
 import SearchBox from "./components/SearchBox";
 import useSearchTerm from "./hooks/useSearchTerm";
+import useCurrentPage from "./hooks/useCurrentPage";
 
 function App() {
-  const { characters, fetchMoreCharacters } = useCharacters();
+  const { characters } = useCharacters();
   const { chooseCharacter } = useChosenCharacters();
   const { searchResults, searchByTerm } = useSearchTerm();
+  const { currentPage, setCurrentPage, totalPages } = useCurrentPage();
 
   return (
     <Container size={"80%"}>
@@ -18,7 +19,7 @@ function App() {
         {/* LHS */}
         <Grid.Col span={5}>
           <Group>
-            <h1>Rick & Morty characters</h1>
+            <Title order={1}>Rick & Morty characters</Title>
           </Group>
           <Group>
             <SearchBox
@@ -38,7 +39,7 @@ function App() {
           </Group>
           <Group>
             <ul>
-              {filterBySpecies(characters, "Human").map((c) => (
+              {characters.map((c) => (
                 <li
                   key={c.id}
                   data-id={c.id}
@@ -51,7 +52,11 @@ function App() {
             </ul>
           </Group>
 
-          <button onClick={() => fetchMoreCharacters()}>Load more</button>
+          <Pagination
+            total={totalPages ?? 100}
+            value={currentPage}
+            onChange={setCurrentPage}
+          />
         </Grid.Col>
         {/* RHS */}
         <Grid.Col span={6}>

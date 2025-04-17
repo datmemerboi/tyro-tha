@@ -1,48 +1,98 @@
 import { create } from "zustand";
 import { Character } from "../models/character";
+import { fetchCharacterAPI } from "../api/characters";
+import {
+  API_NO_RECORDS,
+  NETWORK_ERROR_MESSAGE,
+  NO_SUCH_RECORDS_MESSAGE,
+} from "../constants";
 
 interface CharacterState {
   characters: Character[];
-  page: number;
+  currentPage: number;
+  totalPages: number;
   chosenCharacter?: Character | null;
   searchResults: Character[];
+  errorMessage: string | null;
+
+  setCurrentPage: (page: number) => Promise<void>;
 
   fetchMoreCharacters: (page?: number) => Promise<void>;
   chooseCharacter: (id: number) => void;
   searchByTerm: (term: string) => void;
+  setErrorMessage: (msg: string) => void;
 }
 
 const useCharacterStore = create<CharacterState>((set, get) => ({
   characters: [],
-  page: 1,
+  currentPage: 1,
+  totalPages: 1,
   chosenCharacter: null,
   searchResults: [],
+  errorMessage: null,
 
-  fetchMoreCharacters: async (page = get().page) => {
-    const res = await fetch(
-      `https://rickandmortyapi.com/api/character?page=${page}`
-    );
-    const data = await res.json();
+  setCurrentPage: async (page: number) => {
+    const data = await fetchCharacterAPI("", "Human", page); // Filter by species, skip to page
+
+    if (data === null) {
+      // Error. Show pop-up message
+      set({ errorMessage: NETWORK_ERROR_MESSAGE });
+      return;
+    }
+
+    if (data?.results.length && data.results.length < 1) {
+      // Empty result. Result accordingly
+      set({ errorMessage: API_NO_RECORDS });
+    }
+
+    set(() => ({
+      characters: data.results,
+      currentPage: page,
+    }));
+  },
+
+  fetchMoreCharacters: async (page = get().currentPage) => {
+    const data = await fetchCharacterAPI("", "Human", page); // Filter by species, skip to page
+
+    if (data === null) {
+      // Error. Show pop-up message
+      set({ errorMessage: NETWORK_ERROR_MESSAGE });
+      return;
+    }
+
+    if (data?.results.length && data.results.length < 1) {
+      // Empty result. Result accordingly
+      set({ errorMessage: API_NO_RECORDS });
+    }
+
     set((state) => ({
       characters: [...state.characters, ...data.results],
-      page: page + 1,
+      totalPages: data.info.pages,
     }));
   },
   chooseCharacter: (id: number) => {
     const person = get().characters.find((p) => p.id === id) || null;
     set({ chosenCharacter: person });
   },
+  setErrorMessage: (msg: string) => set({ errorMessage: msg }),
   searchByTerm: async (term: string) => {
     if (!term || !term.length) {
       return;
     }
-    const URL = `https://rickandmortyapi.com/api/character?name=${term}`;
-    const res = await fetch(URL);
-    const data = await res.json();
 
-    set(() => ({
-      searchResults: data.results || [],
-    }));
+    const data = await fetchCharacterAPI(term);
+    if (data === null) {
+      // Error. Show pop-up message
+      set({ errorMessage: NETWORK_ERROR_MESSAGE });
+      return;
+    }
+
+    if (data?.results.length && data.results.length < 1) {
+      // Empty result. Result accordingly
+      set({ errorMessage: NO_SUCH_RECORDS_MESSAGE });
+    }
+
+    set(() => ({ searchResults: data.results! }));
   },
 }));
 
