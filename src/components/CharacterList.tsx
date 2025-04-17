@@ -1,4 +1,4 @@
-import { Stack, Text, Title } from "@mantine/core";
+import { Stack, Text, Title, useMantineTheme } from "@mantine/core";
 
 import { Character } from "../models/character";
 import useCharacters from "../hooks/useCharacters";
@@ -10,11 +10,16 @@ export default function CharacterList() {
   const { characters } = useCharacters();
   const { chooseCharacter } = useChosenCharacters();
   const { searchResults } = useSearchTerm();
+  const style = useMantineTheme();
 
   const errorMessage = useCharacterStore((state) => state.errorMessage);
 
   const renderErrorMessage = () => {
-    return <Title size={"lg"}>{errorMessage}</Title>;
+    return (
+      <Title size={"lg"} style={{ color: style.colors.portalGreen[5] }}>
+        {errorMessage}
+      </Title>
+    );
   };
 
   const renderListItem = (char: Character) => (
@@ -24,6 +29,7 @@ export default function CharacterList() {
       key={char.id}
       role="character-list-item"
       onClick={() => chooseCharacter(char.id)}
+      c={style.colors.toxicPurple[2]}
     >
       {char.name}
     </Text>
