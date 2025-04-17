@@ -26,13 +26,7 @@ export default function CharacterProfile() {
   );
 
   return (
-    <Card
-      padding="xl"
-      component="a"
-      target="_blank"
-      w={600}
-      role="character-profile"
-    >
+    <Card padding="xl" w="100%" maw={600} role="character-profile">
       <Flex justify={"center"}>
         <Image
           src={chosenCharacter.image}
@@ -44,11 +38,11 @@ export default function CharacterProfile() {
       </Flex>
 
       <Center>
-        <Title order={1}>{chosenCharacter.name}</Title>
+        <Title order={3}>{chosenCharacter.name}</Title>
       </Center>
 
-      <Group justify="center" w="100%" wrap="nowrap" pt={20} pb={20}>
-        <Paper p="md" radius="md" w={500}>
+      <Group justify="center" w="100%" wrap="wrap" py={20}>
+      <Paper p="md" radius="md" w="100%" maw={300}>
           <Stack gap={4} align="center">
             <Text size="sm" c="dimmed">
               Status
@@ -57,7 +51,7 @@ export default function CharacterProfile() {
           </Stack>
         </Paper>
 
-        <Paper p="md" radius="md" w={500}>
+        <Paper p="md" radius="md" w="100%" maw={300}>
           <Stack gap={4} align="center">
             <Text size="sm" c="dimmed">
               Species
@@ -67,8 +61,8 @@ export default function CharacterProfile() {
         </Paper>
       </Group>
 
-      <Group justify="center" w="100%" wrap="nowrap" pt={20} pb={20}>
-        <Paper p="md" radius="md" w={500}>
+      <Group justify="center" w="100%" wrap="wrap" py={20}>
+      <Paper p="md" radius="md" w="100%" maw={300}>
           <Stack gap={4} align="center">
             <Text size="sm" c="dimmed">
               Origin
@@ -77,7 +71,7 @@ export default function CharacterProfile() {
           </Stack>
         </Paper>
 
-        <Paper p="md" radius="md" w={500}>
+        <Paper p="md" radius="md" w="100%" maw={300}>
           <Stack gap={4} align="center">
             <Text size="sm" c="dimmed">
               Last Known Location

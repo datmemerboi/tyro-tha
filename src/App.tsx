@@ -11,20 +11,21 @@ function App() {
   const { currentPage, setCurrentPage, totalPages } = useCurrentPage();
 
   return (
-    <Container size={"80%"}>
-      <Grid overflow="hidden">
+    <Container size={"80%"} py="md" px={{ md: "xs", lg: "md"}}>
+      <Grid gutter="md">
         {/* LHS */}
-        <Grid.Col span={5}>
+        <Grid.Col span={{ base: 12, md: 5 }}>
           <Group>
-            <Title order={1}>Rick & Morty characters</Title>
+            <Title order={2}>Rick & Morty characters</Title>
           </Group>
+
           <Group>
             <SearchBox
               label="Search"
               onInput={(value) => searchByTerm(value)}
             />
           </Group>
-          {/* SEARCH RESULTS */}
+
           <Group>
             <CharacterList />
           </Group>
@@ -35,8 +36,9 @@ function App() {
             onChange={setCurrentPage}
           />
         </Grid.Col>
+
         {/* RHS */}
-        <Grid.Col span={6}>
+        <Grid.Col span={{ base: 12, md: 7 }}>
           <CharacterProfile />
         </Grid.Col>
       </Grid>
