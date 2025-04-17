@@ -1,6 +1,5 @@
 import {
   Card,
-  Chip,
   Flex,
   Grid,
   Group,
@@ -11,6 +10,7 @@ import {
 import dayjs from "dayjs";
 
 import useChosenCharacters from "../hooks/useChosenCharacter";
+import StatusBadge from "./StatusBadge";
 
 export default function CharacterProfile() {
   const { chosenCharacter } = useChosenCharacters();
@@ -19,28 +19,38 @@ export default function CharacterProfile() {
     return;
   }
 
-  const createdDateStr = dayjs(chosenCharacter.created).format("YYYY MMM DD HH:mm:ss");
+  const createdDateStr = dayjs(chosenCharacter.created).format(
+    "YYYY MMM DD HH:mm:ss"
+  );
 
   return (
-    <Card padding="xl" component="a" target="_blank" w={600} role="character-profile">
-      <Card.Section>
+    <Card
+      padding="xl"
+      component="a"
+      target="_blank"
+      w={600}
+      role="character-profile"
+    >
+      <Flex justify={"center"}>
         <Image
           src={chosenCharacter.image}
-          w={520}
+          w={"100%"}
           h={520}
+          radius={"lg"}
           alt={chosenCharacter.name}
         />
-      </Card.Section>
+      </Flex>
 
       <Title order={1}>{chosenCharacter.name}</Title>
-      <Chip size="lg">{chosenCharacter.status}</Chip>
+      <Group>
+        <Flex dir="row" gap={7}>
+          <StatusBadge type="status">{chosenCharacter.status}</StatusBadge>
+          <StatusBadge type="species">{chosenCharacter.species}</StatusBadge>
+        </Flex>
+      </Group>
 
       <Group>
-        <Grid
-          justify="space-around"
-          w={"100%"}
-          style={{ backgroundColor: "rebeccapurple", textOverflow: "ellipsis" }}
-        >
+        <Grid justify="space-around" w={"100%"}>
           <Grid.Col span={2}>
             <Text>Origin</Text>
             <Text>{chosenCharacter.origin.name}</Text>
@@ -53,7 +63,9 @@ export default function CharacterProfile() {
       </Group>
 
       <Group>
-        <Text>First noticed (in C-137 timeline): {createdDateStr}</Text>
+        <Text>
+          First noticed (in C-137 timeline): <code>{createdDateStr}</code>
+        </Text>
       </Group>
     </Card>
   );
