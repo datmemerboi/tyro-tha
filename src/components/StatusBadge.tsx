@@ -8,9 +8,9 @@ interface StatusBadgeProps {
 }
 
 const BADGE_COLORS_BASED_ON_TYPE = {
-  status: "yellow",
-  species: "blue",
-  gender: "green",
+  status: "portalGreen",
+  species: "toxicPurple",
+  gender: "lime",
 };
 
 export default function StatusBadge({
