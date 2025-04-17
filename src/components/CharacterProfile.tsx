@@ -2,9 +2,10 @@ import {
   Card,
   Center,
   Flex,
-  Grid,
   Group,
   Image,
+  Paper,
+  Stack,
   Text,
   Title,
 } from "@mantine/core";
@@ -45,24 +46,45 @@ export default function CharacterProfile() {
       <Center>
         <Title order={1}>{chosenCharacter.name}</Title>
       </Center>
-      <Group>
-        <Flex dir="row" gap={12}>
-          <StatusBadge type="status">{chosenCharacter.status}</StatusBadge>
-          <StatusBadge type="species">{chosenCharacter.species}</StatusBadge>
-        </Flex>
+
+      <Group justify="center" w="100%" wrap="nowrap" pt={20} pb={20}>
+        <Paper p="md" radius="md" w={500}>
+          <Stack gap={4} align="center">
+            <Text size="sm" c="dimmed">
+              Status
+            </Text>
+            <StatusBadge type="status">{chosenCharacter.status}</StatusBadge>
+          </Stack>
+        </Paper>
+
+        <Paper p="md" radius="md" w={500}>
+          <Stack gap={4} align="center">
+            <Text size="sm" c="dimmed">
+              Species
+            </Text>
+            <StatusBadge type="species">{chosenCharacter.species}</StatusBadge>
+          </Stack>
+        </Paper>
       </Group>
 
-      <Group>
-        <Grid justify="space-around" w={"100%"}>
-          <Grid.Col span={2}>
-            <Text>Origin</Text>
-            <Text>{chosenCharacter.origin.name}</Text>
-          </Grid.Col>
-          <Grid.Col span={2}>
-            <Text>(Last known) Location</Text>
-            <Text>{chosenCharacter.location.name}</Text>
-          </Grid.Col>
-        </Grid>
+      <Group justify="center" w="100%" wrap="nowrap" pt={20} pb={20}>
+        <Paper p="md" radius="md" w={500}>
+          <Stack gap={4} align="center">
+            <Text size="sm" c="dimmed">
+              Origin
+            </Text>
+            <Text fw={500}>{chosenCharacter.origin.name}</Text>
+          </Stack>
+        </Paper>
+
+        <Paper p="md" radius="md" w={500}>
+          <Stack gap={4} align="center">
+            <Text size="sm" c="dimmed">
+              Last Known Location
+            </Text>
+            <Text fw={500}>{chosenCharacter.location.name}</Text>
+          </Stack>
+        </Paper>
       </Group>
 
       <Group>
