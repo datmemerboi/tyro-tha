@@ -1,5 +1,6 @@
 import { Container, Grid, Group, Pagination, Title } from "@mantine/core";
 import { useMantineTheme } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
 
 import CharacterProfile from "./components/CharacterProfile";
 import SearchBox from "./components/SearchBox";
@@ -12,6 +13,7 @@ function App() {
   const { currentPage, setCurrentPage, totalPages } = useCurrentPage();
 
   const styles = useMantineTheme();
+  const [isOpen, { open, close }] = useDisclosure(false);
 
   return (
     <Container size={"80%"} py="md" px={{ md: "xs", lg: "md" }}>
@@ -32,7 +34,7 @@ function App() {
           </Group>
 
           <Group>
-            <CharacterList />
+            <CharacterList onClick={open} />
           </Group>
 
           <Pagination
@@ -44,7 +46,7 @@ function App() {
 
         {/* RHS */}
         <Grid.Col span={{ base: 12, md: 7 }}>
-          <CharacterProfile />
+          <CharacterProfile isOpen={isOpen} onClose={close} />
         </Grid.Col>
       </Grid>
     </Container>

@@ -6,7 +6,7 @@ import useChosenCharacters from "../hooks/useChosenCharacter";
 import useSearchTerm from "../hooks/useSearchTerm";
 import useCharacterStore from "../store/characterStore";
 
-export default function CharacterList() {
+export default function CharacterList({ onClick }: { onClick: () => void }) {
   const { characters } = useCharacters();
   const { chooseCharacter } = useChosenCharacters();
   const { searchResults } = useSearchTerm();
@@ -28,7 +28,10 @@ export default function CharacterList() {
       size="md"
       key={char.id}
       role="character-list-item"
-      onClick={() => chooseCharacter(char.id)}
+      onClick={() => {
+        chooseCharacter(char.id);
+        onClick();
+      }}
       c={style.colors.toxicPurple[2]}
     >
       {char.name}
