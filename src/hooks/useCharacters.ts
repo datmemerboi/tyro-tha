@@ -1,6 +1,7 @@
 import { useEffect } from "react";
-import useCharacterStore from "../store/characterStore";
 import { useShallow } from "zustand/react/shallow";
+
+import useCharacterStore from "../store/characterStore";
 
 const useCharacters = () => {
   const { characters, fetchMoreCharacters } = useCharacterStore(

@@ -1,4 +1,5 @@
 import { useShallow } from "zustand/react/shallow";
+
 import useCharacterStore from "../store/characterStore";
 
 const useChosenCharacters = () => {
