@@ -1,33 +1,40 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
-import "./App.css";
+import { Grid } from "@mantine/core";
+
+import CharacterProfile from "./components/CharacterProfile";
+import useCharacters from "./hooks/useCharacters";
+import useChosenCharacters from "./hooks/useChosenCharacter";
+import { filterBySpecies } from "./utils/filters";
 
 function App() {
-  const [count, setCount] = useState(0);
+  const { characters, fetchMoreCharacters } = useCharacters();
+  const { chooseCharacter } = useChosenCharacters();
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <Grid overflow="hidden">
+        {/* LHS */}
+        <Grid.Col span={4}>
+          <h1>Rick & Morty characters</h1>
+          <ul>
+            {filterBySpecies(characters, "Human").map((c) => (
+              <li
+                key={c.id}
+                data-id={c.id}
+                role="character-list-item"
+                onClick={() => chooseCharacter(c.id)}
+              >
+                {c.name}
+              </li>
+            ))}
+          </ul>
+
+          <button onClick={() => fetchMoreCharacters()}>Load more</button>
+        </Grid.Col>
+        {/* RHS */}
+        <Grid.Col span={5} style={{ backgroundColor: "orange" }}>
+          <CharacterProfile />
+        </Grid.Col>
+      </Grid>
     </>
   );
 }
