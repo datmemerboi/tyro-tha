@@ -11,18 +11,18 @@ import {
   Title,
   useMantineTheme,
 } from "@mantine/core";
-
 import dayjs from "dayjs";
 
 import useChosenCharacters from "../hooks/useChosenCharacter";
 import StatusBadge from "./StatusBadge";
+import { PROFILE_DATE_FORMAT } from "../constants";
 
 export default function CharacterProfile({
   isOpen,
   onClose,
 }: {
-  isOpen?: boolean;
-  onClose?: () => void;
+  isOpen: boolean;
+  onClose: () => void;
 }) {
   const styles = useMantineTheme();
   const { chosenCharacter } = useChosenCharacters();
@@ -32,13 +32,13 @@ export default function CharacterProfile({
   }
 
   const createdDateStr = dayjs(chosenCharacter.created).format(
-    "YYYY MMM DD HH:mm:ss"
+    PROFILE_DATE_FORMAT
   );
 
   const renderMobileModal = () => {
     return (
       <>
-        <Modal opened={isOpen} onClose={onClose} hiddenFrom="md">
+        <Modal opened={isOpen!} onClose={onClose!} hiddenFrom="md">
           <Center>
             <Title order={3} style={{ color: styles.colors.lime[4] }}>
               {chosenCharacter.name}
