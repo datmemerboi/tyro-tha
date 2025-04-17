@@ -1,16 +1,13 @@
 import { Container, Grid, Group, Pagination, Title } from "@mantine/core";
 
 import CharacterProfile from "./components/CharacterProfile";
-import useCharacters from "./hooks/useCharacters";
-import useChosenCharacters from "./hooks/useChosenCharacter";
 import SearchBox from "./components/SearchBox";
 import useSearchTerm from "./hooks/useSearchTerm";
 import useCurrentPage from "./hooks/useCurrentPage";
+import CharacterList from "./components/CharacterList";
 
 function App() {
-  const { characters } = useCharacters();
-  const { chooseCharacter } = useChosenCharacters();
-  const { searchResults, searchByTerm } = useSearchTerm();
+  const { searchByTerm } = useSearchTerm();
   const { currentPage, setCurrentPage, totalPages } = useCurrentPage();
 
   return (
@@ -29,27 +26,7 @@ function App() {
           </Group>
           {/* SEARCH RESULTS */}
           <Group>
-            {searchResults.length ? (
-              <ul>
-                {searchResults.map((r) => (
-                  <li>{r.name}</li>
-                ))}
-              </ul>
-            ) : null}
-          </Group>
-          <Group>
-            <ul>
-              {characters.map((c) => (
-                <li
-                  key={c.id}
-                  data-id={c.id}
-                  role="character-list-item"
-                  onClick={() => chooseCharacter(c.id)}
-                >
-                  {c.name}
-                </li>
-              ))}
-            </ul>
+            <CharacterList />
           </Group>
 
           <Pagination
