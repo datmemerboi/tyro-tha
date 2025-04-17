@@ -14,10 +14,10 @@ export interface Character {
     url: string;
   };
   image: string;
-  created: Date;
+  created: string;
 }
 
-export const characterSchema: z.ZodType<Character> = z.object({
+export const CharacterSchema: z.ZodType<Character> = z.object({
   id: z.number(),
   name: z.string(),
   status: z.string(),
@@ -31,5 +31,25 @@ export const characterSchema: z.ZodType<Character> = z.object({
     url: z.string(),
   }),
   image: z.string(),
-  created: z.date(),
+  created: z.string(),
+});
+
+export interface APIResponse {
+  info: {
+    count: number;
+    pages: number;
+    next: string | null;
+    prev: string | null;
+  };
+  results: Character[];
+}
+
+export const APIResponseSchema = z.object({
+  info: z.object({
+    count: z.number(),
+    pages: z.number(),
+    next: z.string().nullable(),
+    prev: z.string().nullable(),
+  }),
+  results: z.array(CharacterSchema),
 });
