@@ -35,69 +35,75 @@ export default function CharacterProfile({
     PROFILE_DATE_FORMAT
   );
 
+  const isMobile = window.innerWidth <= 768;
+
   const renderMobileModal = () => {
-    return (
-      <>
-        <Modal opened={isOpen!} onClose={onClose!} hiddenFrom="md">
-          <Center>
-            <Title order={3} style={{ color: styles.colors.lime[4] }}>
-              {chosenCharacter.name}
-            </Title>
-          </Center>
+    if (isMobile) {
+      return (
+        <>
+          <Modal opened={isOpen!} onClose={onClose!} hiddenFrom="md">
+            <Center>
+              <Title order={3} style={{ color: styles.colors.lime[4] }}>
+                {chosenCharacter.name}
+              </Title>
+            </Center>
 
-          <Image
-            src={chosenCharacter.image}
-            w={"100%"}
-            h={{ sm: "50%", md: "80%" }}
-            radius={"lg"}
-            alt={chosenCharacter.name}
-          />
+            <Image
+              src={chosenCharacter.image}
+              w={"100%"}
+              h={{ sm: "50%", md: "80%" }}
+              radius={"lg"}
+              alt={chosenCharacter.name}
+            />
 
-          <Group justify="center" w="100%" wrap="wrap" py={20}>
-            <Stack gap={4} align="center">
-              <Text size="sm" c="dimmed">
-                Status
+            <Group justify="center" w="100%" wrap="wrap" py={20}>
+              <Stack gap={4} align="center">
+                <Text size="sm" c="dimmed">
+                  Status
+                </Text>
+                <StatusBadge type="status">
+                  {chosenCharacter.status}
+                </StatusBadge>
+              </Stack>
+
+              <Stack gap={4} align="center">
+                <Text size="sm" c="dimmed">
+                  Species
+                </Text>
+                <StatusBadge type="species">
+                  {chosenCharacter.species}
+                </StatusBadge>
+              </Stack>
+            </Group>
+
+            <Group justify="center" w="100%" wrap="wrap" py={20}>
+              <Stack gap={4} align="center">
+                <Text size="sm" c="dimmed">
+                  Origin
+                </Text>
+                <Text fw={500}>{chosenCharacter.origin.name}</Text>
+              </Stack>
+
+              <Stack gap={4} align="center">
+                <Text size="sm" c="dimmed">
+                  Last Known Location
+                </Text>
+                <Text fw={500}>{chosenCharacter.location.name}</Text>
+              </Stack>
+            </Group>
+
+            <Group>
+              <Text role="character-profile-created-date">
+                First noticed (in C-137 timeline):{" "}
+                <code style={{ color: styles.colors.gearGray[3] }}>
+                  {createdDateStr}
+                </code>
               </Text>
-              <StatusBadge type="status">{chosenCharacter.status}</StatusBadge>
-            </Stack>
-
-            <Stack gap={4} align="center">
-              <Text size="sm" c="dimmed">
-                Species
-              </Text>
-              <StatusBadge type="species">
-                {chosenCharacter.species}
-              </StatusBadge>
-            </Stack>
-          </Group>
-
-          <Group justify="center" w="100%" wrap="wrap" py={20}>
-            <Stack gap={4} align="center">
-              <Text size="sm" c="dimmed">
-                Origin
-              </Text>
-              <Text fw={500}>{chosenCharacter.origin.name}</Text>
-            </Stack>
-
-            <Stack gap={4} align="center">
-              <Text size="sm" c="dimmed">
-                Last Known Location
-              </Text>
-              <Text fw={500}>{chosenCharacter.location.name}</Text>
-            </Stack>
-          </Group>
-
-          <Group>
-            <Text role="character-profile-created-date">
-              First noticed (in C-137 timeline):{" "}
-              <code style={{ color: styles.colors.gearGray[3] }}>
-                {createdDateStr}
-              </code>
-            </Text>
-          </Group>
-        </Modal>
-      </>
-    );
+            </Group>
+          </Modal>
+        </>
+      );
+    }
   };
 
   const renderDesktopCard = () => {
